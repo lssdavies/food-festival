@@ -1,3 +1,7 @@
+/**Because Bootstrap doesn't have any special variables that webpack doesn't understand, the only thing we need to do is require the package at the top of the script.js file refer to main.bundle.js for additional notes*/
+require("bootstrap");
+
+
 $(document).ready(function() {
   function createEl(htmlString, attrs, ...children) {
     if (typeof htmlString !== "string") {
