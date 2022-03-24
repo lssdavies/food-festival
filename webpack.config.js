@@ -16,9 +16,12 @@
 const path = require("path");
 /**Because plugin is built into webpack, we need to be sure we're bringing webpack's methods and properties into the config file.  */
 const webpack = require("webpack");
-/*importing depedency since we installed below packet i.e. npm install -D webpack-bundle-analyzer, webpack has access to this plugin now so it needs to be added to the plugins property export object*/
+/*importing depedency since we installed  pm install -D webpack-bundle-analyzer, webpack has access to this plugin now so it needs to be added to the plugins property export object*/
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+//To turn the app into a pwa installed wepack-pwa-manifest; npm install -D webpack-pwa-manifest and imported the plug the plugin. like all plugs it is add to plugins section of the config file. when we run npm run build the manifest.json is generated in /dist. The manifest.json needs to be link to index.html <link rel="manifest" href="dist/manifest.json">
+const WebpackPwaManifest = require("webpack-pwa-manifest");
+
 
 /** The basic configuration, we need to provide webpack with three properties: entry, output, and mode. */
 //The main configuration object within our file.
@@ -43,6 +46,23 @@ module.exports = {
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: "static", //configured the analyzerMode property with a static value. This report outputs to an HTML file in the dist folder
+    }),
+    new WebpackPwaManifest({
+      name: "Food Event",
+      short_name: "Foodies",
+      description: "An app that allows you to view upcoming food events.",
+      start_url: "../index.html", //property to specify the homepage for the PWA relative to the location of the manifest file.
+      background_color: "#01579b",
+      theme_color: "#ffffff",
+      fingerprints: false, //Fingerprints tell webpack whether or not it should generate unique fingerprints
+      inject: false, //determines whether the link to the manifest.json is added to the HTML. since not using fingeringprionts set to false.The paths will be hard coded in manifest.json
+      icons: [
+        {
+          src: path.resolve("assets/img/icons/icon-512x512.png"),
+          sizes: [96, 128, 192, 256, 384, 512],
+          destination: path.join("assets", "icons"),
+        },
+      ],
     }),
   ],
   /*Installed file-loader package i.e. npm install -D file-loader to optimize the apps images so added "test" and "use" to module rules array which uses regex to find all jpeg file and uses file-loader to optimize the files.
