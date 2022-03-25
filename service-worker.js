@@ -1,4 +1,14 @@
-/* create the service-worker.js file in the root directory of your project. Note that we don't need to add a <script src="./service-worker.js"> tag, because navigator.serviceWorker.register("./service-worker.js") does that for us. This also works in connection with script in the index.html file
+/* create the service-worker.js file in the root directory of your project. Note that we don't need to add a <script src="./service-worker.js"> tag, because the script added to index.html 
+<script>
+  (function () {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js")
+        .then(() => console.log("Service Worker registered successfully."))
+        .catch(error => console.log("Service Worker registration failed:", error));
+    }
+  })();
+</script>
+uses navigator.serviceWorker.register("./service-worker.js") does that for us. This also works in connection with script in the index.html file
 Now that the browser knows about the service worker, we need to install it, adding files to the precache, so that the application can use the cache.
 */
 
